@@ -95,13 +95,17 @@ PHP_METHOD(TeaOpenPTY__TeaOpenPTY, exec)
   opty.p_data = Z_STRVAL_P(zopty);
   opty.data   = *(opty.pp_data);
   data        = opty.data;
-  data->argv  = malloc(sizeof(char *) * argc);
+  data->argv  = emalloc(sizeof(char *) * (argc + 1));
 
   for (int i = 0; i < argc; i++) {
     data->argv[i] = Z_STRVAL_P((args + i));
   }
+  data->argv[argc] = NULL;
 
-  RETURN_LONG(tea_openpty(data));
+  int ret = tea_openpty(data);
+  efree(data->argv);
+
+  RETURN_LONG(ret);
 }
 
 
