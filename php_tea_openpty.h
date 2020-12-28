@@ -23,6 +23,8 @@ ZEND_EXTERN_MODULE_GLOBALS(tea_openpty)
 
 #define FRESH_TEA_ASMG(v) ZEND_MODULE_GLOBALS_ACCCESSOR(tea_openpty, v)
 
+extern zend_module_entry tea_openpty_module_entry;
+
 #define phpext_tea_openpty_ptr (&tea_openpty_module_entry)
 
 #endif

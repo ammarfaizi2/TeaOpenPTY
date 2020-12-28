@@ -6,7 +6,6 @@
 
 #include <php.h>
 
-#include "tea_openpty.h"
 #include "php_tea_openpty.h"
 #include "classes/TeaOpenPTY/TeaOpenPTY.h"
 

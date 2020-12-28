@@ -1,4 +1,6 @@
 *.o
+*.lo
+*.la
 *.so
 *.tmp
 *.log
@@ -12,6 +14,7 @@ autom4te.cache/
 build/
 config.h
 config.h.in
+config.h.in~
 config.log
 config.nice
 config.status
@@ -20,4 +23,3 @@ configure.ac
 libtool
 php_tea_openpty.loT
 run-tests.php
-tea_openpty.lo
