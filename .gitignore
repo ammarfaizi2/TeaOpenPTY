@@ -23,3 +23,4 @@ configure.ac
 libtool
 php_tea_openpty.loT
 run-tests.php
+!compiled/tea_openpty.so
