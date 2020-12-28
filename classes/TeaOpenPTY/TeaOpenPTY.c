@@ -40,6 +40,10 @@ PHP_METHOD(TeaOpenPTY__TeaOpenPTY, __construct)
   memset(opty.data, 0, sizeof(tea_openpty_t));
 
   zend_update_property_stringl(
+    cc_ce, _this, ZEND_STRL("app"),
+    app, len TSRMLS_CC);
+
+  zend_update_property_stringl(
     cc_ce, _this, ZEND_STRL("opty"),
     opty.arr_ptr, sizeof(opty.arr_ptr) TSRMLS_CC);
 }
@@ -65,8 +69,6 @@ PHP_METHOD(TeaOpenPTY__TeaOpenPTY, __destruct)
     opty.p_data = Z_STRVAL_P(zopty);
     efree(*(opty.pp_data));
   }
-
-
 }
 
 
@@ -82,6 +84,7 @@ PHP_METHOD(TeaOpenPTY__TeaOpenPTY, exec)
   zval          *_this;
   zval          *zopty;
   zval          *args;
+  zval          *app;
   tea_opty_u    opty;
   tea_openpty_t *data;
 
@@ -90,11 +93,13 @@ PHP_METHOD(TeaOpenPTY__TeaOpenPTY, exec)
   ZEND_PARSE_PARAMETERS_END();
 
   _this = getThis();
+  app   = zend_read_property(cc_ce, _this, ZEND_STRL("app"), 1, &rv TSRMLS_CC);
   zopty = zend_read_property(cc_ce, _this, ZEND_STRL("opty"), 1, &rv TSRMLS_CC);
 
   opty.p_data = Z_STRVAL_P(zopty);
   opty.data   = *(opty.pp_data);
   data        = opty.data;
+  data->app   = Z_STRVAL_P(app);
   data->argv  = emalloc(sizeof(char *) * (argc + 1));
 
   for (int i = 0; i < argc; i++) {

@@ -49,9 +49,9 @@ set_nonblocking(int fd)
  * @return void
  */
 inline static void
-execute_bin(char *const argv[], int pipe_write_fd)
+execute_bin(char *app, char *const argv[], int pipe_write_fd)
 {
-  if (execvp(argv[0], argv) == -1) {
+  if (execvp(app, argv) == -1) {
     int ret;
     ssize_t wlen;
     char buf[255] = {0};
@@ -238,7 +238,7 @@ error:
 
 child:
   {
-    execute_bin(pty_data->argv, pipe_fd[1]);
+    execute_bin(pty_data->app, pty_data->argv, pipe_fd[1]);
     exit(0);
   }
   __builtin_unreachable();

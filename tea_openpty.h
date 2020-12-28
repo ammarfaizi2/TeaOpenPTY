@@ -11,6 +11,7 @@ typedef struct _tea_openpty_t {
   int         poll_timeout;
   char        error[255];
   char        **argv;
+  char        *app;
 } tea_openpty_t;
 
 /**
