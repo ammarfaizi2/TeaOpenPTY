@@ -37,11 +37,11 @@ PHP_METHOD(TeaOpenPTY__TeaOpenPTY, __construct)
 
   _this     = getThis();
   opty.data = emalloc(sizeof(tea_openpty_t));
+  memset(opty.data, 0, sizeof(tea_openpty_t));
 
   zend_update_property_stringl(
-    cc_ce, _this, ZEND_STRL("opty"), opty.arr_ptr, sizeof(opty.arr_ptr) TSRMLS_CC);
-
-  printf("p = %p\n", opty.data);
+    cc_ce, _this, ZEND_STRL("opty"),
+    opty.arr_ptr, sizeof(opty.arr_ptr) TSRMLS_CC);
 }
 
 
@@ -101,13 +101,41 @@ PHP_METHOD(TeaOpenPTY__TeaOpenPTY, exec)
     data->argv[i] = Z_STRVAL_P((args + i));
   }
 
-  tea_openpty(data);
+  RETURN_LONG(tea_openpty(data));
+}
+
+
+/**
+ * @return ?string
+ */
+static
+PHP_METHOD(TeaOpenPTY__TeaOpenPTY, error)
+{
+  zval          rv;
+  zval          *_this;
+  zval          *zopty;
+  tea_opty_u    opty;
+  tea_openpty_t *data;
+
+  _this = getThis();
+  zopty = zend_read_property(cc_ce, _this, ZEND_STRL("opty"), 1, &rv TSRMLS_CC);
+
+  opty.p_data = Z_STRVAL_P(zopty);
+  opty.data   = *(opty.pp_data);
+  data        = opty.data;
+
+  if (data->error[0] == 0) {
+    return;
+  }
+
+  RETURN_STRING(data->error);
 }
 
 
 zend_function_entry methods_TeaOpenPTY__TeaOpenPTY[] = {
   PHP_ME(TeaOpenPTY__TeaOpenPTY, __construct, NULL, ZEND_ACC_CTOR | ZEND_ACC_PUBLIC)
   PHP_ME(TeaOpenPTY__TeaOpenPTY, exec, NULL, ZEND_ACC_PUBLIC)
+  PHP_ME(TeaOpenPTY__TeaOpenPTY, error, NULL, ZEND_ACC_PUBLIC)
   PHP_ME(TeaOpenPTY__TeaOpenPTY, __destruct, NULL, ZEND_ACC_DTOR | ZEND_ACC_PUBLIC)
   PHP_FE_END
 };
