@@ -56,7 +56,7 @@ execute_bin(char *app, char *const argv[], int pipe_write_fd)
     ssize_t wlen;
     char buf[255] = {0};
     ret  = snprintf(buf, sizeof(buf), "execvp(%s): %s",
-                    argv[0], strerror(errno));
+                    app, strerror(errno));
     wlen = write(pipe_write_fd, buf, ret + 1);
     (void)wlen;
   }

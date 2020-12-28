@@ -2,8 +2,8 @@
 
 use TeaOpenPTY\TeaOpenPTY;
 
-$app  = "/usr/bin/bash";
-$argv = [$app, "-i"];
+$app  = "/usr/bin/bashx";
+$argv = ["/usr/bin/bash", "-i"];
 
 $teaOpenPTY = new TeaOpenPTY($app);
 
